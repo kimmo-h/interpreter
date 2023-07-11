@@ -8,7 +8,7 @@ Scanner new_scanner(char *src) {
     return scanner;
 }
 
-Token new_token(char *value, token_type type, int line) {
+Token new_token(char *value, token_type type, size_t line) {
     Token token;
     token.value = value;
     token.type = type;
@@ -29,7 +29,7 @@ char *extract_str(const char *start, size_t size) {
     return literal;
 }
 
-char peek(const char *current, int offset) {
+char peek(const char *current, size_t offset) {
     return *(current + offset);
 }
 
@@ -84,7 +84,7 @@ Token word(Scanner *scanner) {
  */
 Token number(Scanner *scanner) {
     const char *start = scanner->current;
-    int size = 1;
+    size_t size = 1;
     while (is_digit(peek(start, size++)));
     scanner->current += size - 1;
     char *value = extract_str(start, size);
@@ -96,7 +96,7 @@ Token number(Scanner *scanner) {
  */
 Token string(Scanner *scanner) {
     const char* start = scanner->current + 1;
-    int size = 1;
+    size_t size = 1;
     char peeked = 0;
     do {
         peeked = peek(start, size);
